@@ -7,11 +7,23 @@ namespace Task2
     {
         static void Main(string[] args)
         {
+            
             Catalog bookCatalog = new Catalog();
 
-            Book book1 = new Book("book1", 1990, new HashSet<string>() { "Author1", "Author2"}, "123-4-56-789012-3");
-            Book book2 = new Book("book2", DateTime.Now.Year , new HashSet<string>() { "Author3", "Author4"}, "1234567890128");
+            Book book1 = null;
+            Book book2 = null;
 
+            //ask about correct usage of try catch
+            try
+            {
+                book1 = new Book("book1", new DateTime(2022, 03, 01), "123-4-56-789012-3", "Author1", "Author2");
+                book2 = new Book("book2", new DateTime(2022, 03, 01), "1234567890128", "Author3", "Author4");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
             try
             {
                 bookCatalog.AddBook(book1);
@@ -25,23 +37,22 @@ namespace Task2
             try
             {
                 bookCatalog.AddBook(book2);
+
                 Console.WriteLine(bookCatalog.GetBook("123-4-56-789012-8").Title);
 
                 var book2Authors = bookCatalog.GetBook("123-4-56-789012-8").Authors;
+
                 foreach (var item in book2Authors)
                 {
                     Console.WriteLine(item);
                 }
 
-                Console.WriteLine(bookCatalog.GetBook("123-4-56-789012-8").PublicationDate);
+                Console.WriteLine(bookCatalog.GetBook("123-4-56-789012-8").PublicationDate?.ToShortDateString());
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-                
-            
-            
         }
     }
 }

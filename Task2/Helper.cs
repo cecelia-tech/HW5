@@ -7,11 +7,11 @@ namespace Task2
     {
         private static string patternMatch = @"^\d{3}-\d-\d{2}-\d{6}-\d|\d{13}$";
         private static string hyphenCheck = "-";
-        private static string replaceTo = "";
+        private static string replaceTo = string.Empty;
 
         public static string UnifyISBN(this string ISBN)
         {
-            if (ISBN == null)
+            if (ISBN is null)
             {
                 throw new ArgumentNullException("ISBN is null");
             }
@@ -30,11 +30,5 @@ namespace Task2
 
             return ISBN;
         }
-
-        //private static string ReplaceHyphens(string ISBN)
-        //{
-        //    return Regex.Replace(ISBN, hyphenCheck, replaceTo);
-        //}
-
     }
 }
