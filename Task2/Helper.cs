@@ -5,10 +5,10 @@ namespace Task2
 {
     public static class Helper
     {
-        private static string patternMatch = @"^\d{3}-\d-\d{2}-\d{6}-\d|\d{13}$";
-        private static string hyphenCheck = "-";
-        private static string replaceTo = string.Empty;
-
+        private static readonly string patternMatch = @"^\d{3}-\d-\d{2}-\d{6}-\d|\d{13}$";
+        private static readonly string hyphenCheck = "-";
+        private static readonly string replaceTo = string.Empty;
+        
         public static string UnifyISBN(this string ISBN)
         {
             if (ISBN is null)

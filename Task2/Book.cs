@@ -5,10 +5,10 @@ namespace Task2
 {
     public class Book
     {
-        public string Title { get; set; }
-        public DateTime? PublicationDate { get; set; }
-        public HashSet<string> Authors { get; set; } = new HashSet<string>();
-        public string ISBN { get; set; }
+        public string Title { get;}
+        public DateTime? PublicationDate { get;}
+        public HashSet<string> Authors { get; } = new HashSet<string>();
+        public string ISBN { get; }
 
         public Book(string title, DateTime? publicationDate, string ISBN, params string[] authors)
         {
@@ -29,7 +29,7 @@ namespace Task2
 
             if (authors.Length == 0)
             {
-                throw new ArgumentNullException("Author(s) are null");
+                throw new ArgumentNullException("At least one or more authors needed.");
             }
             else
             {
