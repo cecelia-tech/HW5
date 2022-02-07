@@ -43,9 +43,12 @@ namespace Task1
 
                 foreach (var element in arrayElements)
                 {
-                    if (element.Key.Equals(new ElementDirections(column, row)))
+                    ElementDirections directions = new ElementDirections(column, row);
+
+                    if (element.Key.Equals(directions))
                     {
                         itemToReturn = element.Value;
+                        break;
                     }
                         
                 }
@@ -103,22 +106,22 @@ namespace Task1
 
         public IEnumerator<int> GetEnumerator()
         {
-            for (int i = 0; i < Columns; i++)
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < Rows; j++)
+                for (int j = 0; j < Columns; j++)
                 {
-                    yield return this[i, j];
+                    yield return this[j, i];
                 }
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < Columns; i++)
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < Rows; j++)
+                for (int j = 0; j < Columns; j++)
                 {
-                    yield return this[i, j];
+                    yield return this[j, i];
                 }
             }
         }

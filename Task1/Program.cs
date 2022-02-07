@@ -8,13 +8,32 @@ namespace Task1
         {
             SparseMatrix sparceMatrix = new SparseMatrix(5,3);
 
+            //Test on 5 columns and 3 rows
             sparceMatrix[0, 0] = 1;
-            sparceMatrix[0, 2] = 1;
-            sparceMatrix[2, 2] = 2;
-            sparceMatrix[1, 1] = 5;
-            sparceMatrix[1, 1] = 7;
-            Console.WriteLine(sparceMatrix[0, 0]);
-            Console.WriteLine(sparceMatrix[1, 1]);
+            sparceMatrix[1, 2] = 2;
+            sparceMatrix[2, 0] = 3;
+            sparceMatrix[3, 2] = 4;
+            sparceMatrix[4, 0] = 5;
+            sparceMatrix[0, 2] = 6;
+            sparceMatrix[1, 0] = 7;
+            sparceMatrix[2, 2] = 8;
+            sparceMatrix[3, 0] = 9;
+            sparceMatrix[4, 2] = 0;
+
+            //Test on 3 columns and 5 rows
+            //sparceMatrix[0, 4] = 2;
+            //sparceMatrix[2, 4] = 6;
+            //sparceMatrix[1, 0] = 3;
+            //sparceMatrix[0, 0] = 1;
+            //sparceMatrix[2, 0] = 5;
+            //sparceMatrix[1, 4] = 4;
+
+            //Test on 3 columns and 3 rows
+            //sparceMatrix[0, 0] = 1;
+            //sparceMatrix[0, 2] = 2;
+            //sparceMatrix[2, 0] = 3;
+            //sparceMatrix[2, 2] = 4;
+
             Console.WriteLine(sparceMatrix.ToString());
 
             foreach (var item in sparceMatrix.GetNozeroElements())
@@ -22,21 +41,7 @@ namespace Task1
                 Console.WriteLine(item);
             }
 
-            //foreach (var item in sparceMatrix.arrayElements)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //foreach (var item in sparceMatrix)
-            //{
-            //    Console.WriteLine(item);
-            //}
-
-            //foreach (var item in sparceMatrix.GetNozeroElements())
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //Console.WriteLine("---");
-            //Console.WriteLine(sparceMatrix.GetCount(2));
+            Console.WriteLine(sparceMatrix.GetCount(0));
         }
     }
 }
