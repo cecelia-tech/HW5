@@ -64,7 +64,16 @@ namespace Task3
             }
             return a.Select(x => (x.Key, x.Value));
 
-            
+            /*
+             return _text.GroupBy(word => word.ToUpper())
+                .Select(group => new {Word = group.Key, Count = group.Count()})
+                .OrderByDescending(pair => pair.Count)
+                .Skip(Offset)
+                .Take(Count)
+                .Select(pair => pair.Word)
+                .ToArray();
+             */
+
             //List<DateTime> year = new List<DateTime>() {
             //    new DateTime(2021, 01, 01),
             //    new DateTime(2021, 02, 01)
@@ -105,30 +114,67 @@ namespace Task3
 
         }
 
-        
+
         public bool AlreadyOnVacation(EmployeeVacations a)
         {
-            foreach (var item in AllVacationsRecords)
-            {
-                if (a.Name.Equals(item.Name))
-                {
-                        //atostogos baigiasi per kitu pradzia
-                    if ((a.vacationsStart.CompareTo(item.vacationsStart) == -1 && 
-                        a.vacationsEnd.CompareTo(item.vacationsStart) == 1) ||
-                        //atostogos prasideda nepasibaigus
-                        (a.vacationsStart.CompareTo(item.vacationsEnd) == -1 &&
-                        a.vacationsEnd.CompareTo(item.vacationsEnd) == 1) ||
-                        //ta pati diena
-                        (a.vacationsStart.Equals(item.vacationsStart) &&
-                        a.vacationsEnd.Equals(item.vacationsEnd))
-                        )
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            var r = AllVacationsRecords.Where(x => x.Name.Equals(a.Name)).Where(x => (a.vacationsStart <= x.vacationsEnd &&
+                                                                                      a.vacationsEnd >= x.vacationsStart)
+                                                                                      //a.vacationsStart < x.vacationsStart &&
+                                                                                      //a.vacationsEnd > x.vacationsStart)
+                                                                                      //||
+                                                                                      //(x.vacationsStart < a.vacationsEnd &&
+                                                                                      //x.vacationsEnd < a.vacationsEnd) ||
+                                                                                      //(x.vacationsStart > a.vacationsStart &&
+                                                                                      //x.vacationsEnd < a.vacationsEnd) ||
+                                                                                      //(x.vacationsStart == a.vacationsStart &&
+                                                                                      //x.vacationsEnd == a.vacationsEnd)
+                                                                                      ).Count();
+
+            return r == 0 ? false : true;
+
+            //foreach (var item in AllVacationsRecords)
+            //{
+            //    if (a.Name.Equals(item.Name))
+            //    {
+            //            //holidays finish during existing holiday
+            //        if ((a.vacationsStart.CompareTo(item.vacationsStart) == -1 && 
+            //            a.vacationsEnd.CompareTo(item.vacationsStart) == 1) ||
+            //            //holidays start when previous haven't ended
+            //            (a.vacationsStart.CompareTo(item.vacationsEnd) == -1 &&
+            //            a.vacationsEnd.CompareTo(item.vacationsEnd) == 1) ||
+            //            //middle of the existing holidays
+            //            (a.vacationsStart.CompareTo(item.vacationsStart) == 1 &&
+            //            a.vacationsEnd.CompareTo(item.vacationsEnd) == -1)||
+            //            //same period
+            //            (a.vacationsStart.Equals(item.vacationsStart) &&
+            //            a.vacationsEnd.Equals(item.vacationsEnd))
+            //            )
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //}
+            //return false;
         }
+
+        //public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()
+        //{
+        //    var orderedList = AllVacationsRecords.OrderBy(x => x.vacationsStart);
+
+        //    var start = new DateTime(2021, 01, 01);
+        //    var until = new DateTime(2021, 12, 31);
+
+        //    for (DateTime dt = start; dt < until; dt = dt.AddDays(1))
+        //    {
+        //        foreach (var item in orderedList)
+        //        {
+        //            if (true)
+        //            {
+
+        //            }
+        //        }
+        //    }
+        //}
 
         //public override bool Equals(object obj)
         //{
@@ -153,3 +199,27 @@ namespace Task3
         //}
     } 
 }
+/*
+ using System;
+using System.Text.Json;
+ 
+namespace HelloApp
+{
+    class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Person tom = new Person { Name = "Tom", Age = 35 };
+            string json = JsonSerializer.Serialize<Person>(tom);
+            Console.WriteLine(json);
+            Person restoredPerson = JsonSerializer.Deserialize<Person>(json);
+            Console.WriteLine(restoredPerson.Name);
+        }
+    }
+}
+ */

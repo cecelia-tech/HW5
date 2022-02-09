@@ -13,7 +13,7 @@ namespace Task3
             EmployeeVacations o = new EmployeeVacations("Sarah", new DateTime(2021, 04, 01), new DateTime(2021, 04, 03));
             EmployeeVacations p = new EmployeeVacations("Shawn", new DateTime(2021, 04, 02), new DateTime(2021, 05, 08));
             EmployeeVacations q = new EmployeeVacations("Ben", new DateTime(2021, 12, 02), new DateTime(2021, 12, 08));
-            EmployeeVacations r = new EmployeeVacations("Ben", new DateTime(2021, 12, 06), new DateTime(2021, 12, 10));
+            EmployeeVacations r = new EmployeeVacations("Ben", new DateTime(2021, 11, 10), new DateTime(2021, 11, 12));
 
             info.AddEmployeeVacations(q);
             //info.AddEmployeeVacations(q);
