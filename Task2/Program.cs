@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Task2
 {
@@ -13,7 +12,6 @@ namespace Task2
             Book book1 = null;
             Book book2 = null;
 
-            //ask about correct usage of try catch
             try
             {
                 book1 = new Book("book1", new DateTime(2022, 03, 01), "123-4-56-789012-3", "Author1", "Author2");

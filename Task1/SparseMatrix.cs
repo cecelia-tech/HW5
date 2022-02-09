@@ -8,10 +8,10 @@ namespace Task1
 {
     public class SparseMatrix : IEnumerable<int>
     {
-        public int Rows { get; set; }
-        public int Columns { get; set; }
+        public int Rows { get; }
+        public int Columns { get; }
 
-        public Dictionary<ElementDirections, int> arrayElements = new Dictionary<ElementDirections, int>();
+        private Dictionary<ElementDirections, int> arrayElements = new Dictionary<ElementDirections, int>();
         
         public SparseMatrix(int columns, int rows)
         {
