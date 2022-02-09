@@ -6,7 +6,6 @@ namespace Task3
     public class EmployeeVacations
     {
         public string Name { get; set; }
-        //public List<TimeSpan> AllVacationsTaken { get; set; }
         public TimeSpan VacationsTaken { get; set; }
         public DateTime vacationsStart { get; set; }
         public DateTime vacationsEnd { get; set; }
@@ -26,10 +25,10 @@ namespace Task3
                 Name = name;
             }
 
-            //galimai pagalvot apie geresni patikrinima
-            if (firstVacationDay.Year < 2021 && lastVacationDay.Year < 2021)
+            if ((firstVacationDay.Year != 2021 && lastVacationDay.Year != 2021) ||
+                firstVacationDay.CompareTo(lastVacationDay) == 1)
             {
-                throw new ArgumentException("Dates has to be set");
+                throw new ArgumentException("Dates are not correct");
             }
             else
             {
@@ -37,9 +36,7 @@ namespace Task3
                 vacationsEnd = lastVacationDay;
 
                 VacationsTaken = lastVacationDay.Subtract(firstVacationDay);
-                //Console.WriteLine(VacationsTaken);
             }
-            //AllVacationsTaken[1].Ticks
         }
     }
 }

@@ -13,21 +13,28 @@ namespace Task3
             EmployeeVacations o = new EmployeeVacations("Sarah", new DateTime(2021, 04, 01), new DateTime(2021, 04, 03));
             EmployeeVacations p = new EmployeeVacations("Shawn", new DateTime(2021, 04, 02), new DateTime(2021, 05, 08));
             EmployeeVacations q = new EmployeeVacations("Ben", new DateTime(2021, 12, 02), new DateTime(2021, 12, 08));
+            EmployeeVacations r = new EmployeeVacations("Ben", new DateTime(2021, 12, 06), new DateTime(2021, 12, 10));
 
+            info.AddEmployeeVacations(q);
+            //info.AddEmployeeVacations(q);
+            info.AddEmployeeVacations(r);
             info.AddEmployeeVacations(m);
             info.AddEmployeeVacations(n);
             info.AddEmployeeVacations(o);
             info.AddEmployeeVacations(p);
-            info.AddEmployeeVacations(q);
+            
 
-            //Console.WriteLine(info.AverageVacationLength());
+            Console.WriteLine("avrage vacation length for all company");
+            Console.WriteLine(info.AverageVacationLength());
 
-            //foreach (var item in info.GetAverageOfEachEmployee())
-            //{
-            //    Console.WriteLine(item);
-            //}
-            //Console.WriteLine(info.GetAverageOfEachEmployee());
-
+            Console.WriteLine("---------------");
+            Console.WriteLine("Average for each employee");
+            foreach (var item in info.GetAverageOfEachEmployee())
+            {
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("---------------");
+            Console.WriteLine("Employees on vacation per month");
             foreach (var item in info.EmployeesPerMonth())
             {
                 Console.WriteLine(item);
