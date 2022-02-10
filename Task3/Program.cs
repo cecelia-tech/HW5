@@ -8,10 +8,10 @@ namespace Task3
         {
             CompanyVacationInfo info = new CompanyVacationInfo();
 
-            EmployeeVacations m = new EmployeeVacations("Jack", new DateTime(2021, 01, 01), new DateTime(2021, 01, 03));
-            EmployeeVacations n = new EmployeeVacations("Sarah", new DateTime(2021, 03, 01), new DateTime(2021, 03, 02));
-            EmployeeVacations o = new EmployeeVacations("Sarah", new DateTime(2021, 04, 01), new DateTime(2021, 04, 03));
-            EmployeeVacations p = new EmployeeVacations("Shawn", new DateTime(2021, 04, 02), new DateTime(2021, 05, 08));
+            EmployeeVacations m = new EmployeeVacations("Jack", new DateTime(2021, 1, 1), new DateTime(2021, 01, 10));
+            EmployeeVacations n = new EmployeeVacations("Sarah", new DateTime(2021, 1, 6), new DateTime(2021, 01, 15));
+            EmployeeVacations o = new EmployeeVacations("Sarah", new DateTime(2021, 4, 01), new DateTime(2021, 04, 03));
+            EmployeeVacations p = new EmployeeVacations("Shawn", new DateTime(2021, 1, 10), new DateTime(2021, 1, 14));
             EmployeeVacations q = new EmployeeVacations("Ben", new DateTime(2021, 12, 02), new DateTime(2021, 12, 08));
             EmployeeVacations r = new EmployeeVacations("Ben", new DateTime(2021, 11, 10), new DateTime(2021, 11, 12));
 
@@ -40,6 +40,8 @@ namespace Task3
             {
                 Console.WriteLine(item);
             }
+
+            info.DatesWithNoVacations();
         }
     }
 }

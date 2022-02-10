@@ -12,13 +12,9 @@ namespace Task3
 
         public EmployeeVacations(string name, DateTime firstVacationDay, DateTime lastVacationDay)
         {
-            if (name is null)
+            if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentNullException("Name is null");
-            }
-            else if (name.Equals(string.Empty))
-            {
-                throw new ArgumentException("Name can't be empty");
+                throw new ArgumentException("Name entry is not valid");
             }
             else
             {
@@ -26,7 +22,7 @@ namespace Task3
             }
 
             if ((firstVacationDay.Year != 2021 && lastVacationDay.Year != 2021) ||
-                firstVacationDay.CompareTo(lastVacationDay) == 1)
+                firstVacationDay >= lastVacationDay)
             {
                 throw new ArgumentException("Dates are not correct");
             }
