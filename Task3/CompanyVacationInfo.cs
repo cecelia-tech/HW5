@@ -43,26 +43,60 @@ namespace Task3
 
         public IEnumerable<(int, int)> EmployeesPerMonth()
         {
+            //IEnumerable<(int, int)>
             Dictionary<int, int> a = new Dictionary<int, int>();
 
-            for (int i = 1; i < 13; i++)
-            {
-                a.Add(i, 0);
-            }
 
-            foreach (var item in AllVacationsRecords.Distinct())
+            var start = AllVacationsRecords.Select(x => x.vacationsStart);
+            var end = AllVacationsRecords.Where(x => x.vacationsStart.Month != x.vacationsEnd.Month)
+                                         .Select(x => x.vacationsEnd);
+            start.Concat(end).GroupBy(x => x.Month)
+                             .Select(x => (x.Key, x.Count()))
+                             .ToList().
+                             ForEach(x => a.Add(x.Key, x.Item2));
+
+            foreach (var month in Enumerable.Range(1, 12))
             {
-                if (item.vacationsStart.Month == item.vacationsEnd.Month)
+                if (a.ContainsKey(month))
                 {
-                    a[item.vacationsStart.Month] += 1;
+                    continue;
                 }
                 else
                 {
-                    a[item.vacationsStart.Month] += 1;
-                    a[item.vacationsEnd.Month] += 1;
+                    a.Add(month, 0);
                 }
             }
-            return a.Select(x => (x.Key, x.Value));
+            //start.Add(AllVacationsRecords.Where(x => x.vacationsStart.Month != x.vacationsEnd.Month).Select(x => x.vacationsEnd).ToList());
+            //var res = AllVacationsRecords.Join(AllVacationsRecords, start => start.vacationsStart, end => end.vacationsEnd,
+            //                                    (start, end) => new
+            //                                    {
+
+            //                                    });
+
+            //var allvacations = AllVacationsRecords.Select(x => (x.vacationsStart.Month, x.vacationsEnd.Month)).Select(x => new { Month = x.Item1, SecondMonth = (x.Item1 != x.Item2 ? x.Item2 : 0) }).ToList();
+            //.Select(x => (x.Month, x.SecondMonth != 0)).Count()
+            //allvacations.GroupBy(x => x.Month);
+            //foreach (var item in allvacations.GroupBy(x => x.Month))
+            //{
+            //    foreach (var i in item)
+            //    {
+            //        Console.WriteLine(i);
+            //    }
+
+            //}
+            //foreach (var item in AllVacationsRecords.Distinct())
+            //{
+            //    if (item.vacationsStart.Month == item.vacationsEnd.Month)
+            //    {
+            //        a[item.vacationsStart.Month] += 1;
+            //    }
+            //    else
+            //    {
+            //        a[item.vacationsStart.Month] += 1;
+            //        a[item.vacationsEnd.Month] += 1;
+            //    }
+            //}
+            return a.OrderBy(x => x.Key).Select(x => (x.Key, x.Value));
 
             /*
              return _text.GroupBy(word => word.ToUpper())
@@ -117,44 +151,12 @@ namespace Task3
 
         public bool AlreadyOnVacation(EmployeeVacations a)
         {
-            var r = AllVacationsRecords.Where(x => x.Name.Equals(a.Name)).Where(x => (a.vacationsStart <= x.vacationsEnd &&
-                                                                                      a.vacationsEnd >= x.vacationsStart)
-                                                                                      //a.vacationsStart < x.vacationsStart &&
-                                                                                      //a.vacationsEnd > x.vacationsStart)
-                                                                                      //||
-                                                                                      //(x.vacationsStart < a.vacationsEnd &&
-                                                                                      //x.vacationsEnd < a.vacationsEnd) ||
-                                                                                      //(x.vacationsStart > a.vacationsStart &&
-                                                                                      //x.vacationsEnd < a.vacationsEnd) ||
-                                                                                      //(x.vacationsStart == a.vacationsStart &&
-                                                                                      //x.vacationsEnd == a.vacationsEnd)
-                                                                                      ).Count();
+            var r = AllVacationsRecords.Where(x => x.Name.Equals(a.Name))
+                                       .Where(x => (a.vacationsStart <= x.vacationsEnd &&
+                                                    a.vacationsEnd >= x.vacationsStart))
+                                       .Count();
 
             return r == 0 ? false : true;
-
-            //foreach (var item in AllVacationsRecords)
-            //{
-            //    if (a.Name.Equals(item.Name))
-            //    {
-            //            //holidays finish during existing holiday
-            //        if ((a.vacationsStart.CompareTo(item.vacationsStart) == -1 && 
-            //            a.vacationsEnd.CompareTo(item.vacationsStart) == 1) ||
-            //            //holidays start when previous haven't ended
-            //            (a.vacationsStart.CompareTo(item.vacationsEnd) == -1 &&
-            //            a.vacationsEnd.CompareTo(item.vacationsEnd) == 1) ||
-            //            //middle of the existing holidays
-            //            (a.vacationsStart.CompareTo(item.vacationsStart) == 1 &&
-            //            a.vacationsEnd.CompareTo(item.vacationsEnd) == -1)||
-            //            //same period
-            //            (a.vacationsStart.Equals(item.vacationsStart) &&
-            //            a.vacationsEnd.Equals(item.vacationsEnd))
-            //            )
-            //        {
-            //            return true;
-            //        }
-            //    }
-            //}
-            //return false;
         }
 
         //public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()

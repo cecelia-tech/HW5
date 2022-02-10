@@ -35,6 +35,7 @@ namespace Task3
             }
             Console.WriteLine("---------------");
             Console.WriteLine("Employees on vacation per month");
+            //info.EmployeesPerMonth();
             foreach (var item in info.EmployeesPerMonth())
             {
                 Console.WriteLine(item);
