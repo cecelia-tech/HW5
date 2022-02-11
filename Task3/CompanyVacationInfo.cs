@@ -74,6 +74,7 @@ namespace Task3
 
             return r == 0 ? false : true;
         }
+
         static DateTime end = new DateTime(2021, 12, 31);
 
         public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()
@@ -124,13 +125,11 @@ namespace Task3
                     start = item.Item2.AddDays(1);
                     until = end;
                 }
+                if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
+                {
+                    availabeDates.Add((start, until));
+                }
             }
-
-            foreach (var item in availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2))
-            {
-                Console.WriteLine($"{item.Item1.ToShortDateString()} - {item.Item2.ToShortDateString()}");
-            }
-
             return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
         }
 
