@@ -11,7 +11,7 @@ namespace Task2
         {
             if (book is null)
             {
-                throw new ArgumentNullException("Book is null");
+                throw new ArgumentNullException();
             }
 
             CatalogOfBooks.Add(book);

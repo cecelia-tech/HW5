@@ -43,9 +43,7 @@ namespace Task1
 
                 foreach (var element in arrayElements)
                 {
-                    ElementDirections directions = new ElementDirections(column, row);
-
-                    if (element.Key.Equals(directions))
+                    if (element.Key.Equals(new ElementDirections(column, row)))
                     {
                         itemToReturn = element.Value;
                         break;

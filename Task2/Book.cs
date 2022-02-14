@@ -7,18 +7,14 @@ namespace Task2
     {
         public string Title { get;}
         public DateTime? PublicationDate { get;}
-        public HashSet<string> Authors { get; } = new HashSet<string>();
+        public HashSet<string> Authors = new HashSet<string>();
         public string ISBN { get; }
 
         public Book(string title, DateTime? publicationDate, string ISBN, params string[] authors)
         {
-            if (title is null)
+            if (string.IsNullOrEmpty(title))
             {
-                throw new ArgumentNullException("Title is null");
-            }
-            else if (title.Equals(string.Empty))
-            {
-                throw new ArgumentException("Title can't be empty");
+                throw new ArgumentException();
             }
             else
             {
@@ -29,7 +25,7 @@ namespace Task2
 
             if (authors.Length == 0)
             {
-                throw new ArgumentNullException("At least one or more authors needed.");
+                throw new ArgumentException("At least one or more authors needed.");
             }
             else
             {
