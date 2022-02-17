@@ -4,10 +4,10 @@ namespace Task3
 {
     public class EmployeeVacations
     {
-        public string Name { get; set; }
-        public TimeSpan VacationsTaken { get; set; }
-        public DateTime vacationsStart { get; set; }
-        public DateTime vacationsEnd { get; set; }
+        public string Name { get; private set; }
+        public TimeSpan VacationsTaken { get; private set; }
+        public DateTime vacationsStart { get; private set; }
+        public DateTime vacationsEnd { get; private set; }
 
         public EmployeeVacations(string name, DateTime firstVacationDay, DateTime lastVacationDay)
         {

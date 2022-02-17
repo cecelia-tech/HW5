@@ -39,29 +39,14 @@ namespace Task3
 
         public IEnumerable<(int, int)> EmployeesPerMonth()
         {
-            Dictionary<int, int> a = new Dictionary<int, int>();
+            var vacationStartMonths = allVacationsRecords.Select(x => x.vacationsStart.Month);
 
-            var start = allVacationsRecords.Select(x => x.vacationsStart);
+            var vacationsEndMonths = allVacationsRecords.Where(x => x.vacationsStart.Month != x.vacationsEnd.Month)
+                                         .Select(x => x.vacationsEnd.Month);
 
-            var end = allVacationsRecords.Where(x => x.vacationsStart.Month != x.vacationsEnd.Month)
-                                         .Select(x => x.vacationsEnd);
-
-            start.Concat(end).GroupBy(x => x.Month)
-                             .Select(x => (x.Key, x.Count())).ToList().
-                             ForEach(x => a.Add(x.Key, x.Item2));
-
-            foreach (var month in Enumerable.Range(1, 12))
-            {
-                if (a.ContainsKey(month))
-                {
-                    continue;
-                }
-                else
-                {
-                    a.Add(month, 0);
-                }
-            }
-            return a.OrderBy(x => x.Key).Select(x => (x.Key, x.Value));
+            return vacationStartMonths.Concat(vacationsEndMonths).GroupBy(x => x)
+                                    .Select(x => (x.Key, x.Count()))
+                                    .OrderBy(x => x.Key);
         }
 
 
@@ -75,62 +60,90 @@ namespace Task3
             return r == 0 ? false : true;
         }
 
-        static DateTime end = new DateTime(2021, 12, 31);
+        
 
-        public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()
-        {   
+        public IEnumerable<DateTime> DatesWithNoVacations()
+        {
+            DateTime end = new DateTime(2021, 12, 31);
             DateTime start = new DateTime(2021, 01, 01);
             DateTime until = end;
+
+            List<DateTime> allDays = new List<DateTime>();
+
             List<(DateTime, DateTime)> unavailabeDates = new List<(DateTime, DateTime)>();
             List<(DateTime, DateTime)> availabeDates = new List<(DateTime, DateTime)>();
 
             var orderedList = allVacationsRecords.OrderBy(x => x.vacationsStart.Month)
                                                  .ThenBy(x => x.vacationsStart.Day)
-                                                 .Select(x => (x.vacationsStart, x.vacationsEnd));
+                                                 .Select(x => (x.vacationsStart, x.vacationsEnd)).ToList();
+            //Console.WriteLine("-----------");
+            //foreach (var item in orderedList)
+            //{
+            //    Console.WriteLine($"{item.vacationsStart.ToShortDateString()} {item.vacationsEnd.ToShortDateString()}");
+            //}
+            //Console.WriteLine("-----------");
 
-            foreach (var entry in orderedList)
+            for (DateTime dt = start; dt <= end; dt.AddDays(1))
             {
-                int count = unavailabeDates.Count() - 1;
-
-                if (unavailabeDates.Count() == 0)
+                orderedList.Where(x => dt >= x.vacationsStart && dt <= x.vacationsEnd).ToList().ForEach(x => allDays.Add(dt));
+                foreach (var startFinish in orderedList)
                 {
-                    unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
-                }
-                else
-                {
-                    if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
+                    if (dt >= startFinish.vacationsStart && dt <= startFinish.vacationsEnd)
                     {
-                        unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
+                        continue;
                     }
-                    else if (entry.vacationsStart > unavailabeDates[count].Item2)
+                    else
                     {
-                        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+                        allDays.(dt);
                     }
                 }
             }
+            //return allDays;
 
-            foreach (var item in unavailabeDates)
-            {
-                if (start == item.Item1)
-                {
-                    start = item.Item2.AddDays(1);
-                }
-                else
-                {
-                    until = item.Item1.AddDays(-1);
-                }
-                if (until != end)
-                {
-                    availabeDates.Add((start, until));
-                    start = item.Item2.AddDays(1);
-                    until = end;
-                }
-                if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
-                {
-                    availabeDates.Add((start, until));
-                }
-            }
-            return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
+            //foreach (var entry in orderedList)
+            //{
+            //    int count = unavailabeDates.Count() - 1;
+
+            //    if (unavailabeDates.Count() == 0)
+            //    {
+            //        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+            //    }
+            //    else
+            //    {
+            //        if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
+            //        {
+            //            unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
+            //        }
+            //        else if (entry.vacationsStart > unavailabeDates[count].Item2)
+            //        {
+            //            unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+            //        }
+            //    }
+            //}
+
+            //unavailabeDates.
+            //foreach (var item in unavailabeDates)
+            //{
+            //    if (start == item.Item1)
+            //    {
+            //        start = item.Item2.AddDays(1);
+            //    }
+            //    else
+            //    {
+            //        until = item.Item1.AddDays(-1);
+            //    }
+            //    if (until != end)
+            //    {
+            //        availabeDates.Add((start, until));
+            //        start = item.Item2.AddDays(1);
+            //        until = end;
+            //    }
+            //    if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
+            //    {
+            //        availabeDates.Add((start, until));
+            //    }
+            //}
+            //return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
         }
 
         //public override bool Equals(object obj)
