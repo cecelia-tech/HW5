@@ -62,7 +62,7 @@ namespace Task3
 
         
 
-        public IEnumerable<DateTime> DatesWithNoVacations()
+        public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()
         {
             DateTime end = new DateTime(2021, 12, 31);
             DateTime start = new DateTime(2021, 01, 01);
@@ -83,67 +83,68 @@ namespace Task3
             //}
             //Console.WriteLine("-----------");
 
-            for (DateTime dt = start; dt <= end; dt.AddDays(1))
+            //for (DateTime dt = start; dt <= end; dt.AddDays(1))
+            //{
+
+            //    //orderedList.Where(x => dt >= x.vacationsStart && dt <= x.vacationsEnd).ToList().ForEach(x => allDays.Add(dt));
+            //    foreach (var startFinish in orderedList)
+            //    {
+            //        if (dt >= startFinish.vacationsStart && dt <= startFinish.vacationsEnd)
+            //        {
+            //            continue;
+            //        }
+            //        else
+            //        {
+            //            allDays.Add(dt);
+            //        }
+            //    }
+            //}
+            //return allDays;
+
+            foreach (var entry in orderedList)
             {
-                orderedList.Where(x => dt >= x.vacationsStart && dt <= x.vacationsEnd).ToList().ForEach(x => allDays.Add(dt));
-                foreach (var startFinish in orderedList)
+                int count = unavailabeDates.Count() - 1;
+
+                if (unavailabeDates.Count() == 0)
                 {
-                    if (dt >= startFinish.vacationsStart && dt <= startFinish.vacationsEnd)
+                    unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+                }
+                else
+                {
+                    if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
                     {
-                        continue;
+                        unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
                     }
-                    else
+                    else if (entry.vacationsStart > unavailabeDates[count].Item2)
                     {
-                        allDays.(dt);
+                        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
                     }
                 }
             }
-            //return allDays;
-
-            //foreach (var entry in orderedList)
-            //{
-            //    int count = unavailabeDates.Count() - 1;
-
-            //    if (unavailabeDates.Count() == 0)
-            //    {
-            //        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
-            //    }
-            //    else
-            //    {
-            //        if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
-            //        {
-            //            unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
-            //        }
-            //        else if (entry.vacationsStart > unavailabeDates[count].Item2)
-            //        {
-            //            unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
-            //        }
-            //    }
-            //}
 
             //unavailabeDates.
-            //foreach (var item in unavailabeDates)
-            //{
-            //    if (start == item.Item1)
-            //    {
-            //        start = item.Item2.AddDays(1);
-            //    }
-            //    else
-            //    {
-            //        until = item.Item1.AddDays(-1);
-            //    }
-            //    if (until != end)
-            //    {
-            //        availabeDates.Add((start, until));
-            //        start = item.Item2.AddDays(1);
-            //        until = end;
-            //    }
-            //    if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
-            //    {
-            //        availabeDates.Add((start, until));
-            //    }
-            //}
-            //return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
+            foreach (var item in unavailabeDates)
+            {
+                if (start == item.Item1)
+                {
+                    start = item.Item2.AddDays(1);
+                }
+                else
+                {
+                    until = item.Item1.AddDays(-1);
+                }
+                if (until != end)
+                {
+                    availabeDates.Add((start, until));
+                    start = item.Item2.AddDays(1);
+                    until = end;
+                }
+                if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
+                {
+                    availabeDates.Add((start, until));
+                }
+            }
+            return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
         }
 
         //public override bool Equals(object obj)

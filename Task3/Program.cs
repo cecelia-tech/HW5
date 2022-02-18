@@ -43,8 +43,8 @@ namespace Task3
 
             foreach (var item in info.DatesWithNoVacations())
             {
-                Console.WriteLine($"{item.ToShortDateString()} -- {item.ToShortDateString()}");
-                
+                Console.WriteLine($"{item.Item1.ToShortDateString()} -- {item.Item2.ToShortDateString()}");
+                //Console.WriteLine(item);
             }
             
         }
