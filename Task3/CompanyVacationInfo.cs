@@ -62,20 +62,40 @@ namespace Task3
 
         
 
-        public IEnumerable<(DateTime, DateTime)> DatesWithNoVacations()
+        public IEnumerable<DateTime> DatesWithNoVacations()
         {
             DateTime end = new DateTime(2021, 12, 31);
             DateTime start = new DateTime(2021, 01, 01);
-            DateTime until = end;
+            //DateTime until = end;
 
             List<DateTime> allDays = new List<DateTime>();
 
-            List<(DateTime, DateTime)> unavailabeDates = new List<(DateTime, DateTime)>();
-            List<(DateTime, DateTime)> availabeDates = new List<(DateTime, DateTime)>();
+            List<DateTime> unavailabeDates = new List<DateTime>();
+            //List<(DateTime, DateTime)> unavailabeDates = new List<(DateTime, DateTime)>();
+            //List<(DateTime, DateTime)> availabeDates = new List<(DateTime, DateTime)>();
 
-            var orderedList = allVacationsRecords.OrderBy(x => x.vacationsStart.Month)
-                                                 .ThenBy(x => x.vacationsStart.Day)
-                                                 .Select(x => (x.vacationsStart, x.vacationsEnd)).ToList();
+            //var orderedList = allVacationsRecords.OrderBy(x => x.vacationsStart.Month)
+                                                 //.ThenBy(x => x.vacationsStart.Day)
+                                                 //.Select(x => (x.vacationsStart, x.vacationsEnd)).ToList();
+
+            foreach (var item in allVacationsRecords.Select(x => (x.vacationsStart, x.vacationsEnd)).ToList())
+            {
+                var start1 = item.vacationsStart;
+                var end1 = item.vacationsEnd;
+                for (DateTime dt = start1; dt <= end1; dt = dt.AddDays(1))
+                {
+                    unavailabeDates.Add(dt);
+                }
+            }
+
+            for (DateTime dt = start; dt <= end; dt = dt.AddDays(1))
+            {
+                allDays.Add(dt);
+
+            }
+
+            var ad = allDays.Except(unavailabeDates.Distinct());
+            //unavailabeDates.Add(orderedList.Where(x => ))
             //Console.WriteLine("-----------");
             //foreach (var item in orderedList)
             //{
@@ -99,98 +119,53 @@ namespace Task3
             //        }
             //    }
             //}
-            //return allDays;
+            return ad;
 
-            foreach (var entry in orderedList)
-            {
-                int count = unavailabeDates.Count() - 1;
+            //foreach (var entry in orderedList)
+            //{
+            //    int count = unavailabeDates.Count() - 1;
 
-                if (unavailabeDates.Count() == 0)
-                {
-                    unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
-                }
-                else
-                {
-                    if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
-                    {
-                        unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
-                    }
-                    else if (entry.vacationsStart > unavailabeDates[count].Item2)
-                    {
-                        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
-                    }
-                }
-            }
+            //    if (unavailabeDates.Count() == 0)
+            //    {
+            //        unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+            //    }
+            //    else
+            //    {
+            //        if (entry.vacationsStart <= unavailabeDates[count].Item2 && entry.vacationsEnd > unavailabeDates[count].Item2)
+            //        {
+            //            unavailabeDates[count] = (unavailabeDates[count].Item1, entry.vacationsEnd);
+            //        }
+            //        else if (entry.vacationsStart > unavailabeDates[count].Item2)
+            //        {
+            //            unavailabeDates.Add((entry.vacationsStart, entry.vacationsEnd));
+            //        }
+            //    }
+            //}
 
+            //availabeDates.Add(start.AddDays(unavailabeDates.Select(x => x.Item1.Subtract(start).TotalDays)))
             //unavailabeDates.
-            foreach (var item in unavailabeDates)
-            {
-                if (start == item.Item1)
-                {
-                    start = item.Item2.AddDays(1);
-                }
-                else
-                {
-                    until = item.Item1.AddDays(-1);
-                }
-                if (until != end)
-                {
-                    availabeDates.Add((start, until));
-                    start = item.Item2.AddDays(1);
-                    until = end;
-                }
-                if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
-                {
-                    availabeDates.Add((start, until));
-                }
-            }
-            return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
+            //foreach (var item in unavailabeDates)
+            //{
+            //    if (start == item.Item1)
+            //    {
+            //        start = item.Item2.AddDays(1);
+            //    }
+            //    else
+            //    {
+            //        until = item.Item1.AddDays(-1);
+            //    }
+            //    if (until != end)
+            //    {
+            //        availabeDates.Add((start, until));
+            //        start = item.Item2.AddDays(1);
+            //        until = end;
+            //    }
+            //    if (item.Equals(unavailabeDates[unavailabeDates.Count() - 1]))
+            //    {
+            //        availabeDates.Add((start, until));
+            //    }
+            //}
+            //return availabeDates.OrderBy(x => x.Item1).ThenBy(x => x.Item2);
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is EmployeeVacations employee)
-        //    {
-        //        foreach (var item in AllVacationsRecords)
-        //        {
-        //            if (employee.Name.Equals(item.Name) &&
-        //                employee.vacationsStart.Equals(item.vacationsStart) &&
-        //                employee.vacationsEnd.Equals(item.vacationsEnd))
-        //            {
-        //                return true;
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return base.GetHashCode();
-        //}
     } 
 }
-/*
- using System;
-using System.Text.Json;
- 
-namespace HelloApp
-{
-    class Person
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Person tom = new Person { Name = "Tom", Age = 35 };
-            string json = JsonSerializer.Serialize<Person>(tom);
-            Console.WriteLine(json);
-            Person restoredPerson = JsonSerializer.Deserialize<Person>(json);
-            Console.WriteLine(restoredPerson.Name);
-        }
-    }
-}
- */
