@@ -6,8 +6,8 @@ namespace Task3
     {
         public string Name { get; private set; }
         public TimeSpan VacationsTaken { get; private set; }
-        public DateTime vacationsStart { get; private set; }
-        public DateTime vacationsEnd { get; private set; }
+        public DateTime VacationsStart { get; private set; }
+        public DateTime VacationsEnd { get; private set; }
 
         public EmployeeVacations(string name, DateTime firstVacationDay, DateTime lastVacationDay)
         {
@@ -27,8 +27,8 @@ namespace Task3
             }
             else
             {
-                vacationsStart = firstVacationDay;
-                vacationsEnd = lastVacationDay;
+                VacationsStart = firstVacationDay;
+                VacationsEnd = lastVacationDay;
 
                 VacationsTaken = lastVacationDay.Subtract(firstVacationDay);
             }
