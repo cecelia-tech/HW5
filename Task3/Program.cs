@@ -35,7 +35,7 @@ namespace Task3
             }
             Console.WriteLine("---------------");
             Console.WriteLine("Employees on vacation per month");
-            //info.EmployeesPerMonth();
+            
             foreach (var item in info.EmployeesPerMonth())
             {
                 Console.WriteLine(item);
@@ -43,7 +43,6 @@ namespace Task3
 
             foreach (var item in info.DatesWithNoVacations())
             {
-                //Console.WriteLine($"{item.Item1.ToShortDateString()} -- {item.Item2.ToShortDateString()}");
                 Console.WriteLine(item.ToShortDateString());
             }
             
