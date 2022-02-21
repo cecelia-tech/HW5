@@ -35,17 +35,18 @@ namespace Task3
             }
             Console.WriteLine("---------------");
             Console.WriteLine("Employees on vacation per month");
-            
+
             foreach (var item in info.EmployeesPerMonth())
             {
                 Console.WriteLine(item);
             }
-
+            Console.WriteLine("---------------");
             foreach (var item in info.DatesWithNoVacations())
             {
                 Console.WriteLine(item.ToShortDateString());
             }
-            
+            //Console.WriteLine("----------");
+            //info.EmployeesPerMonth();
         }
     }
 }

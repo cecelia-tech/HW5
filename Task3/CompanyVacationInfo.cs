@@ -40,25 +40,60 @@ namespace Task3
         //method returns first int as a month, second int as a number of employees
         public IEnumerable<(int, int)> EmployeesPerMonth()
         {
-            var vacationStartMonths = allVacationsRecords.Select(x => x.VacationsStart.Month);
+            List<(int Month, EmployeeVacations employee)> monthOfVacationAndEmployee;
 
-            var vacationsEndMonths = allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
-                                         .Select(x => x.VacationsEnd.Month);
+            monthOfVacationAndEmployee = allVacationsRecords.Select(employee =>
+                                            (employee.VacationsStart.Month, employee))
+                                            .ToList();
 
-            return vacationStartMonths.Concat(vacationsEndMonths).GroupBy(x => x)
-                                    .Select(x => (x.Key, x.Count()))
-                                    .OrderBy(x => x.Key);
+            monthOfVacationAndEmployee.AddRange(allVacationsRecords
+                .Where(employee => employee.VacationsStart.Month != employee.VacationsEnd.Month)
+                .Select(x => (x.VacationsEnd.Month, x)).ToList());
+
+            return monthOfVacationAndEmployee.GroupBy(x => x.Month)
+                .Select(employee => (employee.Key, employee.Count()));
+
+            //var q = allVacationsRecords.Select(x =>
+            //new { MonthStart = x.VacationsStart.Month, MonthEnd = x.VacationsEnd.Month, Employee = x })
+            //    .Where(x => x.MonthStart != x.MonthEnd).Select(x => x.MonthEnd);
+
+            
+            //var e = allVacationsRecords.(x => x.VacationsStart == x.VacationsEnd? x.VacationsStart.Month: x.VacationsEnd)
+            //epm.Add(allVacationsRecords.Select(x => ))
+            //List<(int, int)> epm = new List<(int, int)>();
+
+            //epm.Add(allVacationsRecords.Select(x => (x.VacationsStart.Month == x.VacationsEnd.Month ? )))
+            //var a = allVacationsRecords.Select(x => (x.VacationsStart.Month, ))
+            //var so = allVacationsRecords.Select(x => (x.VacationsStart.Month == x.VacationsEnd.Month? (x.VacationsStart.Month, x) : x.))
+            //var vacationStartMonths = allVacationsRecords.Select(x => (allVacationsRecords.GroupBy(x => x.VacationsStart)
+            //.Select(x => (x.Key, x.Count(), allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
+            //.GroupBy(x => x.VacationsEnd).Select(x => (x.Key, x.Count()))));
+
+            //var vacationStartMonths = allVacationsRecords.Select(x => (allVacationsRecords.GroupBy(x => x.VacationsStart.Month)
+            //.Select(x => (x.Key, x.Count()))));
+
+            //var vacationsEndMonths = allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
+            //    .GroupBy(x => x.VacationsEnd.Month)
+            //                             .Select(x => (x.Key, x.Count()));
+            //var vacationStartMonths = allVacationsRecords.GroupBy(x => x.VacationsStart).Select(x => (x, x.Count()));
+
+            //var vacationsEndMonths = allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
+            //.Select(x => x);
+            //
+            //return vacationStartMonths.Concat(vacationsEndMonths).GroupBy(x => x.)
+            //                        .Select(x => (x.Key, x.Count()))
+            //                        .OrderBy(x => x.Key);
         }
 
 
-        public bool AlreadyOnVacation(EmployeeVacations a)
+        public bool AlreadyOnVacation(EmployeeVacations employee)
         {
-            var r = allVacationsRecords.Where(x => x.Name.Equals(a.Name))
-                                       .Where(x => a.VacationsStart <= x.VacationsEnd &&
-                                                    a.VacationsEnd >= x.VacationsStart)
+            var result = allVacationsRecords.Where(x => x.Name.Equals(employee.Name))
+                                       .Where(x => employee.VacationsStart <= x.VacationsEnd &&
+                                                    employee.VacationsEnd >= x.VacationsStart)
                                        .Count();
 
-            return r == 0 ? false : true;
+            return result == 0 ? false : true;
         }
 
         

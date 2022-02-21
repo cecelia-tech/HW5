@@ -14,7 +14,19 @@ namespace Task2
                 throw new ArgumentNullException();
             }
 
-            CatalogOfBooks.Add(book);
+            try
+            {
+                if (book.Equals(GetBook(book.ISBN)))
+                {
+                    var bookToUpdate = GetBook(book.ISBN);
+                    bookToUpdate = book;
+                }
+            }
+            catch (Exception)
+            {
+                CatalogOfBooks.Add(book);
+            }
+            
         }
 
         public Book GetBook(string ISBN)
