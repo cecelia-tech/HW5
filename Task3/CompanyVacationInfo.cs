@@ -48,41 +48,11 @@ namespace Task3
 
             monthOfVacationAndEmployee.AddRange(allVacationsRecords
                 .Where(employee => employee.VacationsStart.Month != employee.VacationsEnd.Month)
-                .Select(x => (x.VacationsEnd.Month, x)).ToList());
+                .Select(employee => (employee.VacationsEnd.Month, employee))
+                .ToList());
 
-            return monthOfVacationAndEmployee.GroupBy(x => x.Month)
-                .Select(employee => (employee.Key, employee.Count()));
-
-            //var q = allVacationsRecords.Select(x =>
-            //new { MonthStart = x.VacationsStart.Month, MonthEnd = x.VacationsEnd.Month, Employee = x })
-            //    .Where(x => x.MonthStart != x.MonthEnd).Select(x => x.MonthEnd);
-
-            
-            //var e = allVacationsRecords.(x => x.VacationsStart == x.VacationsEnd? x.VacationsStart.Month: x.VacationsEnd)
-            //epm.Add(allVacationsRecords.Select(x => ))
-            //List<(int, int)> epm = new List<(int, int)>();
-
-            //epm.Add(allVacationsRecords.Select(x => (x.VacationsStart.Month == x.VacationsEnd.Month ? )))
-            //var a = allVacationsRecords.Select(x => (x.VacationsStart.Month, ))
-            //var so = allVacationsRecords.Select(x => (x.VacationsStart.Month == x.VacationsEnd.Month? (x.VacationsStart.Month, x) : x.))
-            //var vacationStartMonths = allVacationsRecords.Select(x => (allVacationsRecords.GroupBy(x => x.VacationsStart)
-            //.Select(x => (x.Key, x.Count(), allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
-            //.GroupBy(x => x.VacationsEnd).Select(x => (x.Key, x.Count()))));
-
-            //var vacationStartMonths = allVacationsRecords.Select(x => (allVacationsRecords.GroupBy(x => x.VacationsStart.Month)
-            //.Select(x => (x.Key, x.Count()))));
-
-            //var vacationsEndMonths = allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
-            //    .GroupBy(x => x.VacationsEnd.Month)
-            //                             .Select(x => (x.Key, x.Count()));
-            //var vacationStartMonths = allVacationsRecords.GroupBy(x => x.VacationsStart).Select(x => (x, x.Count()));
-
-            //var vacationsEndMonths = allVacationsRecords.Where(x => x.VacationsStart.Month != x.VacationsEnd.Month)
-            //.Select(x => x);
-            //
-            //return vacationStartMonths.Concat(vacationsEndMonths).GroupBy(x => x.)
-            //                        .Select(x => (x.Key, x.Count()))
-            //                        .OrderBy(x => x.Key);
+            return monthOfVacationAndEmployee.GroupBy(monthAndEmployee => monthAndEmployee.Month)
+                .Select(monthAndEmployee => (monthAndEmployee.Key, monthAndEmployee.Select(x => x.employee).Count()));
         }
 
 
